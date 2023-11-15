@@ -40,18 +40,11 @@ pipeline {
                     echo "Logging in to Docker registry..."
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]){
                         sh 'echo $PASS | docker login -u $USER --password-stdin'
+                        sh "docker push sumanrizvi/ec2-jenkins-pipeline:(env.IMAGE_NAME)"
                     }
                 }
             }
         }
-        stage("push image") {
-            steps {
-                script {
-                    echo 'Pushing the Docker image...'
-                    dockerPush(env.IMAGE_NAME)
-                }
-            }
-        } 
         stage("deploy") {
             steps {
                 script {
