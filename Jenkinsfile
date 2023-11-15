@@ -1,20 +1,31 @@
-#!/usr/bin.env groovy
+def gv
 
 pipeline {   
     agent any
+    tools {
+        maven 'Maven'
+    }
     stages {
-        stage("test") {
+        stage("init") {
             steps {
                 script {
-                    echo "Testing the application..."
+                    gv = load "script.groovy"
+                }
+            }
+        }
+        stage("build jar") {
+            steps {
+                script {
+                    gv.buildJar()
 
                 }
             }
         }
-        stage("build") {
+
+        stage("build image") {
             steps {
                 script {
-                    echo "Building the application..."
+                    gv.buildImage()
                 }
             }
         }
@@ -22,10 +33,7 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    sshagent(['ec2-server-key']) {
-                        def dockerCmd = 'docker run -p 3080:3080 -d sumanrizvi/ec2-jenkins-pipeline:1.1.1-14'
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@34.228.165.200 ${dockerCmd}"
-                    }
+                    echo "Deploying the application..."
                 }
             }
         }               
