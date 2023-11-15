@@ -44,14 +44,6 @@ pipeline {
                 }
             }
         }
-        // stage("push image") {
-        //     steps {
-        //         script {
-        //             echo "Logging in to Docker registry..."
-                    
-        //         }
-        //     }
-        // }
         stage("deploy") {
             steps {
                 script {
