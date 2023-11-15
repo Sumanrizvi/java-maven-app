@@ -37,17 +37,18 @@ pipeline {
                 script {
                     echo 'building the docker image...'
                     buildImage(env.IMAGE_NAME)
+                    echo "Logging in to Docker registry..."
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                        sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    }
                 }
             }
         }
         stage("push image") {
             steps {
                 script {
-                    echo "Logging in to Docker registry..."
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        echo 'Pushing the Docker image...'
-                        dockerPush(env.IMAGE_NAME)
-                    }
+                    echo 'Pushing the Docker image...'
+                    dockerPush(env.IMAGE_NAME)
                 }
             }
         } 
