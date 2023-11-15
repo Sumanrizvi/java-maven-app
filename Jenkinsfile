@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     echo "Logging in to Docker registry..."
-                    withDockerRegistry([credentialsId: 'dockerhub-creds', url: 'https://hub.docker.com/r/sumanrizvi/ec2-jenkins-pipeline']) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]){
                         echo 'Pushing the Docker image...'
                         dockerPush(env.IMAGE_NAME)
                     }
