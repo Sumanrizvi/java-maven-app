@@ -39,8 +39,8 @@ pipeline {
             steps {
                 script {
                     echo 'building the docker image...'
-                    buildImage(env.IMAGE_NAME)
                     dockerLogin()
+                    buildImage(env.IMAGE_NAME)
                     dockerPush(env.IMAGE_NAME)
                     // withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]){
                     //     sh "docker build -t sumanrizvi/ec2-jenkins-pipeline:${env.IMAGE_NAME} ."
