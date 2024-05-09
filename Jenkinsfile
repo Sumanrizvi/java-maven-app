@@ -22,9 +22,9 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    def dockerCmd = 'docker run -p 3080:3080 -d sumanrizvi/ec2-jenkins-pipeline:1.0'
+                    def dockerCmd = 'docker run -p 3080:3080 -d sumanrizvi/app-server:1.0'
                     sshagent(['ec2-server-key']) {
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@34.204.50.20 ${dockerCmd}"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@54.175.44.239 ${dockerCmd}"
                     }
                 }
             }
