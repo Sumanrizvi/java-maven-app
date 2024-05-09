@@ -8,7 +8,12 @@ library identifier: 'jenkins-shared-library@master', retriever: modernSCM(
 )
 
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:dind'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     tools {
         maven 'Maven'
     }
