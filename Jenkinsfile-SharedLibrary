@@ -13,7 +13,7 @@ pipeline {
         maven 'Maven'
     }
     environment {
-        IMAGE_NAME = 'sumanrizvi/ec2-jenkins-pipeline:1.0'
+        IMAGE_NAME = 'sumanrizvi/app-server:java-maven-1.0'
     }
     stages {
         stage('build app') {
@@ -36,9 +36,9 @@ pipeline {
             steps {
                 script {
                     echo 'deploying docker image to EC2...'
-                    def dockerCmd = "docker run -p 3080:3080 -d ${IMAGE_NAME}"
+                    def dockerCmd = "docker run -p 8080:8080 -d ${IMAGE_NAME}"
                     sshagent(['ec2-server-key']) {
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@35.175.219.130 ${dockerCmd}"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@54.175.44.239 ${dockerCmd}"
                     }
                 }
             }               
