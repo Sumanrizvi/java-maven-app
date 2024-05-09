@@ -39,15 +39,15 @@ pipeline {
             steps {
                 script {
                     echo 'building the docker image...'
-                    dockerLogin()
-                    buildImage(env.IMAGE_NAME)
-                    dockerPush(env.IMAGE_NAME)
-                    // withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                    //     sh 'docker ps'
-                    //     sh "docker build -t ${env.IMAGE_NAME} ."
-                    //     sh 'echo $PASS | docker login -u $USER --password-stdin'
-                    //     sh "docker push ${env.IMAGE_NAME}"
-                    // }
+                    // dockerLogin()
+                    // buildImage(env.IMAGE_NAME)
+                    // dockerPush(env.IMAGE_NAME)
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                        sh 'docker ps'
+                        sh "docker build -t ${env.IMAGE_NAME} ."
+                        sh 'echo $PASS | docker login -u $USER --password-stdin'
+                        sh "docker push ${env.IMAGE_NAME}"
+                    }
                 }
             }
         }
