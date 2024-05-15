@@ -12,9 +12,9 @@ pipeline {
     tools {
         maven 'Maven'
     }
-    // environment {
-    //     IMAGE_NAME = 'sumanrizvi/app-server:1.0'
-    // }
+    environment {
+        IMAGE_NAME = 'sumanrizvi/app-server:1.0'
+    }
     stages {
         stage('increment version') {
             steps {
